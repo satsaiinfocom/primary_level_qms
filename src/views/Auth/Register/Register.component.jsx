@@ -1,10 +1,10 @@
 import React from "react";
-
+import { register } from './../AuthFunctions.component'
 // reactstrap components
 import {
   Button,
   Card,
-  CardHeader,
+
   CardBody,
   FormGroup,
   Form,
@@ -17,51 +17,59 @@ import {
 } from "reactstrap";
 
 class Register extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      first_name: '',
+      last_name: '',
+      email: '',
+      password: '',
+      errors: {}
+    }
+
+    this.onChange = this.onChange.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
+  }
+
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value })
+  }
+  onSubmit(e) {
+    e.preventDefault()
+
+    const user = {
+      first_name: this.state.first_name,
+      last_name: this.state.last_name,
+      email: this.state.email,
+      password: this.state.password
+    }
+
+    register(user).then(res => {
+      if (res) {
+        this.props.history.push(`/auth/login`)
+      }
+    })
+  }
   render() {
     return (
       <>
         <Col lg="6" md="8">
           <Card className="bg-secondary shadow border-0">
-            <CardHeader className="bg-transparent pb-5">
-              <div className="text-muted text-center mt-2 mb-4">
-                <small>Sign up with</small>
-              </div>
-              <div className="text-center">
-                <Button
-                  className="btn-neutral btn-icon mr-4"
-                  color="default"
-                  href="#pablo"
-                  onClick={e => e.preventDefault()}
-                >
-                  <span className="btn-inner--icon">
-                    <img
-                      alt="..."
-                      src={require("assets/img/icons/common/github.svg")}
-                    />
-                  </span>
-                  <span className="btn-inner--text">Github</span>
-                </Button>
-                <Button
-                  className="btn-neutral btn-icon"
-                  color="default"
-                  href="#pablo"
-                  onClick={e => e.preventDefault()}
-                >
-                  <span className="btn-inner--icon">
-                    <img
-                      alt="..."
-                      src={require("assets/img/icons/common/google.svg")}
-                    />
-                  </span>
-                  <span className="btn-inner--text">Google</span>
-                </Button>
-              </div>
-            </CardHeader>
             <CardBody className="px-lg-5 py-lg-5">
               <div className="text-center text-muted mb-4">
                 <small>Or sign up with credentials</small>
               </div>
-              <Form role="form">
+              <Form role="form" noValidate onSubmit={this.onSubmit}>
+              <FormGroup>
+                  <InputGroup className="input-group-alternative mb-3">
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText>
+                        <i className="ni ni-hat-3" />
+                      </InputGroupText>
+                    </InputGroupAddon>
+                    <Input placeholder="First Name" type="text" name="first_name" value={this.state.first_name} onChange={this.onChange} />
+                  </InputGroup>
+                </FormGroup>
                 <FormGroup>
                   <InputGroup className="input-group-alternative mb-3">
                     <InputGroupAddon addonType="prepend">
@@ -69,7 +77,7 @@ class Register extends React.Component {
                         <i className="ni ni-hat-3" />
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="Name" type="text" />
+                    <Input placeholder="Last Name" type="text" name="last_name" value={this.state.last_name} onChange={this.onChange} />
                   </InputGroup>
                 </FormGroup>
                 <FormGroup>
@@ -79,7 +87,7 @@ class Register extends React.Component {
                         <i className="ni ni-email-83" />
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="Email" type="email" />
+                    <Input placeholder="Email" type="email" name="email" value={this.state.email} onChange={this.onChange} />
                   </InputGroup>
                 </FormGroup>
                 <FormGroup>
@@ -89,7 +97,7 @@ class Register extends React.Component {
                         <i className="ni ni-lock-circle-open" />
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="Password" type="password" />
+                    <Input placeholder="Password" type="password" name="password" value={this.state.password} onChange={this.onChange} />
                   </InputGroup>
                 </FormGroup>
                 <div className="text-muted font-italic">
@@ -121,7 +129,7 @@ class Register extends React.Component {
                   </Col>
                 </Row>
                 <div className="text-center">
-                  <Button className="mt-4" color="primary" type="button">
+                  <Button className="mt-4" color="primary" type="submit">
                     Create account
                   </Button>
                 </div>

@@ -16,12 +16,14 @@
 
 */
 import Index from "views/Index.jsx";
-import Profile from "views/examples/Profile.jsx";
+import Profile from "views/User/Profile.component.jsx";
 import Maps from "views/examples/Maps.jsx";
-import Register from "views/examples/Register.jsx";
-import Login from "views/examples/Login.jsx";
+import Register from "views/Auth/Register/Register.component.jsx";
+import Login from "views/Auth/Login/Login.component.jsx";
 import Tables from "views/examples/Tables.jsx";
 import Icons from "views/examples/Icons.jsx";
+import StockIndex from "views/StockManagement/StockIndex.component.jsx";
+import InventoryIndex from "views/InventoryManagement/InventoryIndex.component.jsx";
 
 var routes = [
   {
@@ -29,6 +31,20 @@ var routes = [
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
     component: Index,
+    layout: "/admin"
+  },
+  {
+    path: "/stock-management-system",
+    name: "Stock Management",
+    icon: "ni ni-archive-2 text-blue",
+    component: StockIndex,
+    layout: "/admin"
+  },
+  {
+    path: "/inventory-management-system",
+    name: "Inventory Management",
+    icon: "ni ni-basket text-blue",
+    component: InventoryIndex,
     layout: "/admin"
   },
   {

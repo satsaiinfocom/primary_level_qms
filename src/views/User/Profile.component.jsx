@@ -1,5 +1,5 @@
 import React from "react";
-
+import jwt_decode from 'jwt-decode';
 // reactstrap components
 import {
   Button,
@@ -17,6 +17,23 @@ import {
 import UserHeader from "components/Headers/UserHeader.jsx";
 
 class Profile extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            first_name: '',
+            last_name: '',
+            email: ''
+        }
+    }
+    componentDidMount() {
+        const token = localStorage.usertoken
+        const decoded = jwt_decode(token)
+        this.setState({
+            first_name: decoded.first_name,
+            last_name: decoded.last_name,
+            email: decoded.email
+        })
+    }
   render() {
     return (
       <>
@@ -82,7 +99,7 @@ class Profile extends React.Component {
                   </Row>
                   <div className="text-center">
                     <h3>
-                      Jessica Jones
+                      {this.state.first_name} {this.state.last_name}
                       <span className="font-weight-light">, 27</span>
                     </h3>
                     <div className="h5 font-weight-300">
@@ -164,7 +181,7 @@ class Profile extends React.Component {
                             <Input
                               className="form-control-alternative"
                               id="input-email"
-                              placeholder="jesse@example.com"
+                              placeholder={this.state.email}
                               type="email"
                             />
                           </FormGroup>
